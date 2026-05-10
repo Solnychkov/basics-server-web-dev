@@ -1,9 +1,7 @@
 <?php
-$equation = "27 - X = 17";
-
-$operator = "-";
-$x_position = "справа от оператора";
-$x = 27 - 17;
+$a = isset($_POST['a']) ? (float)$_POST['a'] : 27;
+$b = isset($_POST['b']) ? (float)$_POST['b'] : 17;
+$x = $a - $b;
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -22,12 +20,28 @@ $x = 27 - 17;
 <main>
     <h2>Вариант 2</h2>
 
-    <p><b>Уравнение:</b> <?= $equation ?></p>
-    <p><b>Оператор:</b> <?= $operator ?> (вычитание)</p>
-    <p><b>Расположение X:</b> <?= $x_position ?></p>
-    <p><b>Формула:</b> X = 27 - 17</p>
-    <p><b>Ответ: X = <?= $x ?></b></p>
-    <p>Проверка: 27 - <?= $x ?> = <?= 27 - $x ?> ✓</p>
+    <form method="POST">
+        <div class="form-group">
+            <label>Уравнение: A - X = B</label>
+            <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                <input type="number" name="a" value="<?= $a ?>" style="width:80px;">
+                <span>- X =</span>
+                <input type="number" name="b" value="<?= $b ?>" style="width:80px;">
+            </div>
+        </div>
+        <button type="submit" class="btn">Решить</button>
+    </form>
+
+    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+    <div class="result-box">
+        <p><b>Уравнение:</b> <?= $a ?> - X = <?= $b ?></p>
+        <p><b>Оператор:</b> - (вычитание)</p>
+        <p><b>Расположение X:</b> справа от оператора</p>
+        <p><b>Формула:</b> X = <?= $a ?> - <?= $b ?></p>
+        <p class="answer">X = <?= $x ?></p>
+        <p class="check">Проверка: <?= $a ?> - <?= $x ?> = <?= $a - $x ?> ✓</p>
+    </div>
+    <?php endif; ?>
 </main>
 
 <footer>
