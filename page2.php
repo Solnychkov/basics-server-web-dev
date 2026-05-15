@@ -10,7 +10,7 @@
 
 <header>
     <img src="logo.png" alt="Лого МосПолитех">
-    <h1>Лабораторная работа №4. Feedback Form</h1>
+    <h1>Лабораторная работа №2. Feedback Form</h1>
 </header>
 
 <main>
