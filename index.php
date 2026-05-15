@@ -29,7 +29,7 @@
 <body>
 <header><h1>Калькулятор</h1></header>
 <main>
-    <h2>Вариант 17</h2>
+    <h2>Вариант 2</h2>
     <div class="calc">
         <input type="text" id="display" readonly placeholder="0">
 
