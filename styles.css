@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: Arial, sans-serif;
   display: flex;
@@ -17,9 +18,11 @@ header {
   background: #1a3c6e;
   color: white;
 }
+
 header img {
   height: 50px;
 }
+
 header h1 {
   flex: 1;
   text-align: center;
@@ -32,12 +35,14 @@ main {
   align-items: center;
   justify-content: center;
 }
+
 .card {
   text-align: center;
   padding: 40px 60px;
   border: 2px solid #1a3c6e;
   border-radius: 12px;
 }
+
 .card p {
   font-size: 1rem;
   color: #555;

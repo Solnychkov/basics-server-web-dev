@@ -10,7 +10,7 @@
 
 <header>
     <img src="logo.png" alt="Лого МосПолитех">
-    <h1>Лабораторная работа №2. Hello, World!</h1>
+    <h1>Лабораторная работа №1. Hello, World!</h1>
 </header>
 
 <main>
