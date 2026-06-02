@@ -4,8 +4,10 @@ $message = '';
 if (isset($_GET['del']) && is_numeric($_GET['del'])) {
     $delId   = (int)$_GET['del'];
     $resName = mysqli_query($mysqli, "SELECT lastname FROM contacts WHERE id=$delId");
-    $nameRow = mysqli_fetch_assoc($resName);
-    mysqli_free_result($resName);
+    $nameRow = $resName ? mysqli_fetch_assoc($resName) : null;
+    if ($resName) {
+        mysqli_free_result($resName);
+    }
 
     if ($nameRow) {
         $fam = $nameRow['lastname'];
@@ -26,18 +28,25 @@ $res = mysqli_query($mysqli, 'SELECT id, lastname, firstname, patronymic FROM co
 
 <div class="div-edit" style="width:auto; margin:0 auto;">
 <?php
-if (mysqli_num_rows($res) === 0) {
+if (!$res || mysqli_num_rows($res) === 0) {
     echo '<p>Записей в базе данных нет.</p>';
 } else {
     while ($row = mysqli_fetch_assoc($res)) {
-        $initials  = mb_substr($row['firstname'],  0, 1, 'UTF-8') . '.';
-        if ($row['patronymic']) {
-            $initials .= mb_substr($row['patronymic'], 0, 1, 'UTF-8') . '.';
+        $firstname  = $row['firstname']  ?? '';
+        $patronymic = $row['patronymic'] ?? '';
+        $initials = '';
+        if ($firstname !== '') {
+            $initials = mb_substr($firstname, 0, 1, 'UTF-8') . '.';
         }
-        $text = htmlspecialchars($row['lastname'] . ' ' . $initials);
+        if ($patronymic !== '') {
+            $initials .= mb_substr($patronymic, 0, 1, 'UTF-8') . '.';
+        }
+        $text = htmlspecialchars(($row['lastname'] ?? '') . ' ' . $initials);
         echo '<div><a href="index.php?action=delete&del=' . $row['id'] . '">' . $text . '</a></div>';
     }
 }
-mysqli_free_result($res);
+if ($res) {
+    mysqli_free_result($res);
+}
 ?>
 </div>

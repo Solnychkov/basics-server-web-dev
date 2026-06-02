@@ -2,30 +2,32 @@
 $message = '';
 $button  = 'Сохранить';
 
-
 $resAll = mysqli_query($mysqli, 'SELECT id, lastname, firstname FROM contacts ORDER BY lastname ASC, firstname ASC');
 
+$currentId = 0;
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $currentId = (int)$_GET['id'];
-} else {
+} elseif ($resAll && mysqli_num_rows($resAll) > 0) {
     $firstRow  = mysqli_fetch_assoc($resAll);
     $currentId = $firstRow ? (int)$firstRow['id'] : 0;
     mysqli_data_seek($resAll, 0);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['button'])) {
-    $editId     = (int)$_POST['edit_id'];
-    $lastname   = trim($_POST['surname']);
-    $firstname  = trim($_POST['name']);
-    $patronymic = trim($_POST['lastname']);
-    $gender     = $_POST['gender'];
-    $birthdate  = $_POST['date'];
-    $phone      = trim($_POST['phone']);
-    $address    = trim($_POST['location']);
-    $email      = trim($_POST['email']);
-    $comment    = trim($_POST['comment']);
+    $editId     = isset($_POST['edit_id'])  ? (int)$_POST['edit_id']   : 0;
+    $lastname   = isset($_POST['surname'])  ? trim($_POST['surname'])  : '';
+    $firstname  = isset($_POST['name'])     ? trim($_POST['name'])     : '';
+    $patronymic = isset($_POST['lastname']) ? trim($_POST['lastname']) : '';
+    $gender     = isset($_POST['gender'])   ? $_POST['gender']         : '';
+    $birthdate  = isset($_POST['date'])     ? $_POST['date']           : '';
+    $phone      = isset($_POST['phone'])    ? trim($_POST['phone'])    : '';
+    $address    = isset($_POST['location']) ? trim($_POST['location']) : '';
+    $email      = isset($_POST['email'])    ? trim($_POST['email'])    : '';
+    $comment    = isset($_POST['comment'])  ? trim($_POST['comment'])  : '';
 
-    if ($lastname === '' || $firstname === '') {
+    if ($editId <= 0) {
+        $message = '<p class="error">Ошибка: некорректный id</p>';
+    } elseif ($lastname === '' || $firstname === '') {
         $message = '<p class="error">Ошибка: фамилия и имя обязательны</p>';
     } else {
         $lastname   = mysqli_real_escape_string($mysqli, $lastname);
@@ -56,8 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['button'])) {
 $row = null;
 if ($currentId > 0) {
     $res = mysqli_query($mysqli, "SELECT * FROM contacts WHERE id=$currentId");
-    $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
+    if ($res) {
+        $row = mysqli_fetch_assoc($res);
+        mysqli_free_result($res);
+    }
 }
 ?>
 
@@ -67,7 +71,7 @@ if ($currentId > 0) {
 
     <div class="div-edit">
     <?php
-    if (mysqli_num_rows($resAll) === 0) {
+    if (!$resAll || mysqli_num_rows($resAll) === 0) {
         echo '<p>Записей нет.</p>';
     } else {
         while ($r = mysqli_fetch_assoc($resAll)) {
@@ -76,12 +80,14 @@ if ($currentId > 0) {
             echo '<div class="' . $class . '"><a href="index.php?action=edit&id=' . $r['id'] . '">' . $name . '</a></div>';
         }
     }
-    mysqli_free_result($resAll);
+    if ($resAll) {
+        mysqli_free_result($resAll);
+    }
     ?>
     </div>
 
     <?php if ($row): ?>
-    <form name="form_add" method="post">
+    <form name="form_add" method="post" accept-charset="UTF-8">
         <input type="hidden" name="edit_id" value="<?= $row['id'] ?>">
         <div class="column">
             <div class="add">
@@ -94,34 +100,34 @@ if ($currentId > 0) {
             </div>
             <div class="add">
                 <label>Отчество</label>
-                <input type="text" name="lastname" value="<?= htmlspecialchars($row['patronymic']) ?>">
+                <input type="text" name="lastname" value="<?= htmlspecialchars($row['patronymic'] ?? '') ?>">
             </div>
             <div class="add">
                 <label>Пол</label>
                 <select name="gender">
-                    <option value="мужской" <?= $row['gender']==='мужской' ? 'selected' : '' ?>>мужской</option>
-                    <option value="женский" <?= $row['gender']==='женский' ? 'selected' : '' ?>>женский</option>
+                    <option value="мужской" <?= (($row['gender'] ?? '')==='мужской') ? 'selected' : '' ?>>мужской</option>
+                    <option value="женский" <?= (($row['gender'] ?? '')==='женский') ? 'selected' : '' ?>>женский</option>
                 </select>
             </div>
             <div class="add">
                 <label>Дата рождения</label>
-                <input type="date" name="date" value="<?= htmlspecialchars($row['birthdate']) ?>">
+                <input type="date" name="date" value="<?= htmlspecialchars($row['birthdate'] ?? '') ?>">
             </div>
             <div class="add">
                 <label>Телефон</label>
-                <input type="text" name="phone" value="<?= htmlspecialchars($row['phone']) ?>">
+                <input type="text" name="phone" value="<?= htmlspecialchars($row['phone'] ?? '') ?>">
             </div>
             <div class="add">
                 <label>Адрес</label>
-                <input type="text" name="location" value="<?= htmlspecialchars($row['address']) ?>">
+                <input type="text" name="location" value="<?= htmlspecialchars($row['address'] ?? '') ?>">
             </div>
             <div class="add">
                 <label>Email</label>
-                <input type="email" name="email" value="<?= htmlspecialchars($row['email']) ?>">
+                <input type="email" name="email" value="<?= htmlspecialchars($row['email'] ?? '') ?>">
             </div>
             <div class="add">
                 <label>Комментарий</label>
-                <textarea name="comment"><?= htmlspecialchars($row['comment']) ?></textarea>
+                <textarea name="comment"><?= htmlspecialchars($row['comment'] ?? '') ?></textarea>
             </div>
             <button type="submit" name="button" value="<?= $button ?>" class="form-btn"><?= $button ?></button>
         </div>

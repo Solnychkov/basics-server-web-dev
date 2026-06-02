@@ -1,19 +1,19 @@
 <?php
 $message = '';
 $button  = 'Добавить';
-$row     = []; 
+$row     = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['button'])) {
 
-    $lastname   = trim($_POST['surname']);
-    $firstname  = trim($_POST['name']);
-    $patronymic = trim($_POST['lastname']);
-    $gender     = $_POST['gender'];
-    $birthdate  = $_POST['date'];
-    $phone      = trim($_POST['phone']);
-    $address    = trim($_POST['location']);
-    $email      = trim($_POST['email']);
-    $comment    = trim($_POST['comment']);
+    $lastname   = isset($_POST['surname'])  ? trim($_POST['surname'])  : '';
+    $firstname  = isset($_POST['name'])     ? trim($_POST['name'])     : '';
+    $patronymic = isset($_POST['lastname']) ? trim($_POST['lastname']) : '';
+    $gender     = isset($_POST['gender'])   ? $_POST['gender']         : '';
+    $birthdate  = isset($_POST['date'])     ? $_POST['date']           : '';
+    $phone      = isset($_POST['phone'])    ? trim($_POST['phone'])    : '';
+    $address    = isset($_POST['location']) ? trim($_POST['location']) : '';
+    $email      = isset($_POST['email'])    ? trim($_POST['email'])    : '';
+    $comment    = isset($_POST['comment'])  ? trim($_POST['comment'])  : '';
 
     if ($lastname === '' || $firstname === '') {
         $message = '<p class="error">Ошибка: запись не добавлена (фамилия и имя обязательны)</p>';
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['button'])) {
 
 <?= $message ?>
 
-<form name="form_add" method="post">
+<form name="form_add" method="post" accept-charset="UTF-8">
     <div class="column">
         <div class="add">
             <label>Фамилия</label>
