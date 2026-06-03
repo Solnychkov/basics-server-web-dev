@@ -1,0 +1,129 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: #222;
+    background: #faf7f2;
+    line-height: 1.5;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: #c0392b;
+    color: #fff;
+}
+
+.topbar .logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.topbar nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 18px;
+}
+
+.topbar nav a:hover { text-decoration: underline; }
+
+.container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+}
+
+.hero {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 28px;
+}
+
+.btn {
+    display: inline-block;
+    background: #c0392b;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 16px;
+    text-decoration: none;
+    color: #222;
+}
+
+.card:hover { box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.card h3 { margin: 0 0 8px; }
+
+.meta { color: #888; font-size: 14px; }
+
+.recipe .pre { white-space: pre-line; }
+
+.calc {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.calc .result { font-size: 18px; font-weight: bold; }
+.calc input { width: 90px; }
+
+.grid {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.grid th, .grid td {
+    border: 1px solid #eee;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+.grid a { margin-right: 8px; }
+
+.form input, .form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.form input[type="number"] { width: 120px; }
+
+.form button, .calc button {
+    background: #c0392b;
+    color: #fff;
+    border: 0;
+    padding: 9px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.bottom {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-size: 14px;
+}
