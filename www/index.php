@@ -5,7 +5,13 @@ require_once __DIR__ . '/../src/autoload.php';
 use MyProject\Controllers\ArticleController;
 
 
-$basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+$basePath = '';
+if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+    $labDir = basename(dirname($_SERVER['DOCUMENT_ROOT']));
+    if (preg_match('~^(lab\d+|course-work)$~', $labDir)) {
+        $basePath = '/' . $labDir;
+    }
+}
 define('BASE_PATH', $basePath);
 
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
