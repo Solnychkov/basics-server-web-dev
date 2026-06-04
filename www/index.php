@@ -12,7 +12,21 @@ require_once __DIR__ . '/../src/autoload.php';
 use MyProject\Controllers\MainController;
 use MyProject\Controllers\RecipeController;
 
-$url = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+$basePath = '';
+if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+    $appDir = basename(dirname($_SERVER['DOCUMENT_ROOT']));
+    if (preg_match('~^(lab\d+|course-work)$~', $appDir)) {
+        $basePath = '/' . $appDir;
+    }
+}
+define('BASE_PATH', $basePath);
+
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if ($basePath !== '' && strpos($url, $basePath) === 0) {
+    $url = substr($url, strlen($basePath));
+}
+$url = trim($url, '/');
 
 $routes = [
     '~^$~' => [MainController::class, 'home'],

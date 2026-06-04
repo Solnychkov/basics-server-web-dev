@@ -16,7 +16,7 @@
         <section class="calc">
             <h2>Калькулятор порций</h2>
             <p>Базовый рецепт рассчитан на <?= $recipe->getServings() ?> порц. Укажите нужное число порций — пересчитаем калорийность.</p>
-            <form method="get" action="/recipes/<?= $recipe->getId() ?>">
+            <form method="get" action="<?= BASE_PATH ?>/recipes/<?= $recipe->getId() ?>">
                 <label>Порций:
                     <input type="number" name="servings" id="servings" min="1" value="<?= $servings ?>"
                            data-per="<?= $recipe->getCaloriesPerServing() ?>">
@@ -26,7 +26,7 @@
             <p class="result">Итого: <span id="total"><?= $totalCalories ?></span> ккал</p>
         </section>
 
-        <p><a class="btn" href="/admin/<?= $recipe->getId() ?>/edit">Редактировать</a></p>
+        <p><a class="btn" href="<?= BASE_PATH ?>/admin/<?= $recipe->getId() ?>/edit">Редактировать</a></p>
     </article>
 
     <script>

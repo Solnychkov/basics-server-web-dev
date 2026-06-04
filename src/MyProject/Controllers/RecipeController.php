@@ -66,7 +66,7 @@ class RecipeController
             $recipe->setAuthorId(1);
             $recipe->save();
 
-            header('Location: /admin');
+            header('Location: ' . BASE_PATH . '/admin');
             return;
         }
 
@@ -88,7 +88,7 @@ class RecipeController
             $this->fillFromPost($recipe);
             $recipe->save();
 
-            header('Location: /recipes/' . $recipe->getId());
+            header('Location: ' . BASE_PATH . '/recipes/' . $recipe->getId());
             return;
         }
 
@@ -106,7 +106,7 @@ class RecipeController
             $recipe->delete();
         }
 
-        header('Location: /admin');
+        header('Location: ' . BASE_PATH . '/admin');
     }
 
     private function fillFromPost(Recipe $recipe): void
