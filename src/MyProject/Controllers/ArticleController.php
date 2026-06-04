@@ -46,7 +46,7 @@ class ArticleController
             $article->setText($_POST['text']);
             $article->save();
 
-            header('Location: /articles/' . $article->getId());
+            header('Location: ' . BASE_PATH . '/articles/' . $article->getId());
             return;
         }
 

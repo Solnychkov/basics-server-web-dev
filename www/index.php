@@ -4,11 +4,19 @@ require_once __DIR__ . '/../src/autoload.php';
 
 use MyProject\Controllers\ArticleController;
 
-$url = ltrim($_SERVER['REQUEST_URI'], '/');
+
+$basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+define('BASE_PATH', $basePath);
+
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if ($basePath !== '' && strpos($url, $basePath) === 0) {
+    $url = substr($url, strlen($basePath));
+}
+$url = ltrim($url, '/');
 
 $routes = [
     '~^articles/(\d+)$~' => [ArticleController::class, 'show'],
-    '~^article/(\d)/edit$~' => [ArticleController::class, 'edit'],
+    '~^article/(\d+)/edit$~' => [ArticleController::class, 'edit'],
 ];
 
 foreach ($routes as $pattern => $controllerAndAction) {
